@@ -4,7 +4,7 @@ O projeto tem como objetivo implementar no ambiente NS3 quatro LANs Ethernet (pa
 Cada LAN tem 10 clientes em cada uma das redes Ethernet, em uma das LANs existe um servidor de aplicação que pode ser acessado pelos nós/clientes das outras redes.
 
 <p align="center">
-  <img src="Topologia_estrela_tr1.png">
+  <img src="Topologia_estrela_tr2.png">
   <br>
   <t><b>Figura 1</b>: Topologia implementada.</t>
   <br>
