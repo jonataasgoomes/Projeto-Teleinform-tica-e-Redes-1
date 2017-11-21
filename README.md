@@ -1,5 +1,8 @@
-# [Projeto-Teleinformatica-e-Redes-1](https://github.com/jonataasgoomes/Projeto-Teleinformatica-e-Redes-1)
+# [Projeto Teleinformatica e Redes 1](https://github.com/jonataasgoomes/Projeto-Teleinformatica-e-Redes-1)
 Projeto 1 de Teleinformática e Redes 1 de 2017/2 Universidade de Brasilia
+
+
+###mplementação de Redes Locais no NS-3 e Análise de Tráfego
 
 O projeto tem como objetivo implementar no ambiente NS3 quatro LANs Ethernet (padrão 802.3) em uma WAN , em qualquer padrão , interligando todas as LANs.
 Cada LAN possue 10 clientes em cada uma das redes Ethernet, em uma das LANs existe um servidor de aplicação que pode ser acessado pelos nós/clientes das outras redes.
