@@ -14,6 +14,6 @@ Cada LAN tem 10 clientes em cada uma das redes Ethernet, em uma das LANs existe 
 * Jônatas Gomes P. Junior  - 14/0146407
   - [X] _Versão do ns-3_:
   - [X] _Sistema Operacional_: Debian GNU/Linux 9 (stretch) 64-bit
-* Gabriel Tomazz - 
+* Gabriel Tomaz - 
   - [X] _Versão do ns-3_: 
   - [X] _Sistema Operacional_:
