@@ -22,20 +22,21 @@
    mkdir ns3
    cd ns3
 
-  Baixe o NS-3 -> Download:[http://www.nsnam.org/download/](https://www.nsnam.org/ns-3-27/download/)
-  Descompacte o arquivo baixado e mude o diretório:
+  Baixe o NS-3: Download[http://www.nsnam.org/download/](https://www.nsnam.org/ns-3-27/download/)
+  <p>Descompacte o arquivo baixado e mude o diretório:</p>
 
     tar xjf ns-allinone-$release.tar.bz2
     cd ns-allinone-$release/
 
   Faca o build :
+
     ./build.py --enable-examples --enable-tests
   Caso não tenha ocorrido nenhum erro, o NS-3 foi instalado com sucesso. Caso você queira testar a ferramenta, o NS-3 possui um script chamado test.py dentro da pasta ns3-$release. Você pode executá-lo pelo seguinte comando:
 
     cd ns3-$release
     ./test.py -c core
 
-    Caso a saída seja parecida com essa, sem erros...
+  Caso a saída seja parecida com essa, sem erros...
 
     PASS: TestSuite lte-frequency-reuse
     240 of 243 tests passed (240 passed, 3 skipped, 0 failed, 0 crashed, 0 valgrind errors)
@@ -44,17 +45,17 @@
       ns3-tcp-interoperability
       nsc-tcp-loss
 
-    a ferramenta foi instalada com êxito.
+  a ferramenta foi instalada com êxito.
 
+##Uso da ferramenta:
 
-
-  Uso da ferramenta:
     Para executar um script é necessário copiá-lo para a pasta scratch. Depois, execute o waf para compilar o script.
 
       cp myscript.cc scratch/
       ./waf
 
-  Para executar, basta executar o mesmo comando:
+    Para executar, basta executar o mesmo comando:
+
       ./waf --run myscript
 
 <p align="center">
