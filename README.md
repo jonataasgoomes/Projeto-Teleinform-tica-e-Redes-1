@@ -16,7 +16,7 @@
    [Guia de instalação de pacotes](https://www.nsnam.org/wiki/Installation#Prerequisites).
  
  ## Instalação do NS-3
- 1. Download:[http://www.nsnam.org/download/](http://www.nsnam.org/download/)
+ 1. Download:[http://www.nsnam.org/download/](https://www.nsnam.org/ns-3-27/download/)
  2. 
 
 <p align="center">
