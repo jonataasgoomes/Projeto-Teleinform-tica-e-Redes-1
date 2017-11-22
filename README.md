@@ -16,11 +16,12 @@
    [Guia de instalação de pacotes](https://www.nsnam.org/wiki/Installation#Prerequisites).
 
  ## Instalação do NS-3 no linux.
+
   Baixe todas as dependências necessárias para a instalação use o guia de instalacao de pacotes.
   Crie o diretório ns3 para inserir os arquivos de instalacão:
 
-   mkdir ns3
-   cd ns3
+    mkdir ns3
+    cd ns3
 
   Baixe o NS-3: Download[http://www.nsnam.org/download/](https://www.nsnam.org/ns-3-27/download/)
   <p>Descompacte o arquivo baixado e mude o diretório:</p>
@@ -47,7 +48,7 @@
 
   a ferramenta foi instalada com êxito.
 
-##Uso da ferramenta:
+## Uso da ferramenta:
 
     Para executar um script é necessário copiá-lo para a pasta scratch. Depois, execute o waf para compilar o script.
 
