@@ -4,7 +4,7 @@
     <p>- O projeto tem como objetivo implementar no ambiente NS3 quatro LANs Ethernet (padrão 802.3) em uma WAN , em qualquer padrão , interligando todas as LANs.</p>
     <p>- Cada LAN tem 10 clientes em cada uma das redes Ethernet, em uma das LANs existe um servidor de aplicação que pode ser acessado pelos nós/clientes das outras redes.</p>
     
-## Instalação do NS-3 no Linux:
+## Pacotes necessários do NS-3 no Linux:
  Para funcionamento do NS-3 sao necessários os pacotes:
  ```
  gcc g++ python,
@@ -14,6 +14,10 @@
  tcpdump
  ```
    [Guia de instalação de pacotes](https://www.nsnam.org/wiki/Installation#Prerequisites).
+ 
+ ## Instalação do NS-3
+ 1. Download:[http://www.nsnam.org/download/](http://www.nsnam.org/download/)
+ 2. 
 
 <p align="center">
   <img src="Topologia_estrela_tr2.png">
