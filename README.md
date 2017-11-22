@@ -20,7 +20,7 @@
  2. 
 
 <p align="center">
-  <img src="topologia.png">
+  <img src="Topologia.png">
   <br>
   <t><b>Figura 1</b>: Topologia implementada.</t>
   <br>
