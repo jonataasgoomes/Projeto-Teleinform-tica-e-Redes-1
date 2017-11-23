@@ -60,7 +60,7 @@
       ./waf --run myscript
 
 <p align="center">
-  <img src="Topologia1.png">
+  <img src="topologia_rede1.png">
   <br>
   <t><b>Figura 1</b>: Topologia implementada.</t>
   <br>
