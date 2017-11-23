@@ -6,6 +6,7 @@
 #include "ns3/applications-module.h"
 #include "ns3/wifi-module.h"
 #include "ns3/netanim-module.h"
+#include "ns3/log.h"
 
 /*
 Requesitos do projeto
@@ -116,7 +117,7 @@ Topologia Estrela Aplicada
      //
      // Rastreamento do pcap em todos os dispositivos p2p em todos os nos.
      //
-     AsciiTraceHelper ascii;
+     AsciiTraceHelper ascii
      pointToPoint.EnablePcapAll ("star");
      pointToPoint.EnableAsciiAll(ascii.CreateFileStream("projeto_tr1"));
 
