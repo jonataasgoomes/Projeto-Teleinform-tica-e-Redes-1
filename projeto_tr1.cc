@@ -8,18 +8,20 @@
 #include "ns3/netanim-module.h"
 #include "ns3/log.h"
 
+
+#include <ns3/netanim-module.h>
+#include <ns3/bs-net-device.h>
+#include <ns3/csma-module.h>
+#include <ns3/uan-module.h>
+
 /*
 Requesitos do projeto
   *a) - Quatro LANs Ethernet (padrão 802.3) ou duas redes LANs Ethernet (802.3) e duas redes celulares (3G).
   *b) - Duas LANs Wi-Fi sem fio (802.11x).
   *c) - Uma WAN, em qualquer padrão, interligando todas as LANs.
   *d) - Um minimo de 10 clientes em cada uma das redes.
-
 Obs: Deve existir um servidor de aplicacao que precisa ser acessado por nos/clientes das outras redes.
-
-
 Topologia Estrela Aplicada
-
         n..  n..  n..                   n.. n.. n..              .
            \ | /                            \ | /                .
             \|/                              \|/                 .
@@ -35,11 +37,7 @@ Topologia Estrela Aplicada
             /|\                              /|\                 .
            / | \                            / | \                .
       n10 n..  n..                      n10 n.. n..              .
-
-
     Wifi A (IP)                       Wifi B (IP)
-
-
   */
 
   using namespace ns3;
@@ -51,9 +49,10 @@ Topologia Estrela Aplicada
     //
     // Habilitar Logs
     //
-    LogComponentEnable("UdpEchoClientApplication",LOG_LEVEL_INFO);
-    LogComponentEnable("UdpEchoServerApplication",LOG_LEVEL_INFO);
-
+    LogComponentEnable("Star",LOG_LEVEL_INFO);
+    LogComponentEnable ("TcpL4Protocol", LOG_LEVEL_ALL);
+    LogComponentEnable ("PacketSink", LOG_LEVEL_ALL);
+    std::string outputFolder = "output/";
     //
     //Numero de ligacoes com a LAN   CSMA e WIFI
     //
@@ -117,9 +116,19 @@ Topologia Estrela Aplicada
      //
      // Rastreamento do pcap em todos os dispositivos p2p em todos os nos.
      //
-     AsciiTraceHelper ascii
+     AsciiTraceHelper ascii;
      pointToPoint.EnablePcapAll ("star");
      pointToPoint.EnableAsciiAll(ascii.CreateFileStream("projeto_tr1"));
+
+     BaseStationNetDevice b;
+     SubscriberStationNetDevice s;
+     CsmaNetDevice c;
+     UanNetDevice u;
+
+     AnimationInterface anim(outputFolder+"anim2.xml");
+     anim.SetMaxPktsPerTraceFile(0xFFFFFFFF);
+     anim.EnablePacketMetadata(true);
+     anim.EnableIpv4RouteTracking (outputFolder+"routingtable-wireless.xml", Seconds (0), Seconds (9), Seconds (0.25));
 
      NS_LOG_INFO ("Rodando Simulacao.");
      Simulator::Run ();
@@ -127,4 +136,4 @@ Topologia Estrela Aplicada
      NS_LOG_INFO ("Done.");
 
     return 0;
-  }
+}
