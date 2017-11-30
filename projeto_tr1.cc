@@ -50,13 +50,15 @@ Topologia Estrela Aplicada
     // Habilitar Logs
     //
     LogComponentEnable("Star",LOG_LEVEL_INFO);
-    LogComponentEnable ("TcpL4Protocol", LOG_LEVEL_ALL);
-    LogComponentEnable ("PacketSink", LOG_LEVEL_ALL);
+    // LogComponentEnable ("TcpL4Protocol", LOG_LEVEL_ALL);
+    // LogComponentEnable ("PacketSink", LOG_LEVEL_ALL);
     std::string outputFolder = "output/";
+    Config::SetDefault("ns3::OnOffApplication::DataRate", StringValue("500kb/s"));
     //
     //Numero de ligacoes com a LAN   CSMA e WIFI
     //
     uint32_t nSpokes = 10;
+
     //uint32_t nWifi = 10;
 
     CommandLine cmd;
@@ -67,14 +69,23 @@ Topologia Estrela Aplicada
     PointToPointHelper pointToPoint;
     pointToPoint.SetDeviceAttribute ("DataRate", StringValue ("5Mbps"));
     pointToPoint.SetChannelAttribute ("Delay", StringValue ("2ms"));
-    PointToPointStarHelper star (nSpokes, pointToPoint);
+    PointToPointStarHelper star1 (nSpokes, pointToPoint);
+    PointToPointStarHelper star2 (nSpokes, pointToPoint);
+    PointToPointStarHelper star3 (nSpokes, pointToPoint);
+    PointToPointStarHelper star4 (nSpokes, pointToPoint);
 
     NS_LOG_INFO ("Instalando a pilha de internet em todos os nós..");
     InternetStackHelper internet;
-    star.InstallStack (internet);
+    star1.InstallStack (internet);
+    star2.InstallStack (internet);
+    star3.InstallStack (internet);
+    star4.InstallStack (internet);
 
     NS_LOG_INFO ("Atribuindo endereços IP.");
-    star.AssignIpv4Addresses (Ipv4AddressHelper ("10.1.1.0", "255.255.255.0"));
+    star1.AssignIpv4Addresses (Ipv4AddressHelper ("10.1.1.0", "255.255.255.0"));
+    star2.AssignIpv4Addresses (Ipv4AddressHelper ("10.2.1.0", "255.255.255.0"));
+    star3.AssignIpv4Addresses (Ipv4AddressHelper ("10.3.1.0", "255.255.255.0"));
+    star4.AssignIpv4Addresses (Ipv4AddressHelper ("10.4.1.0", "255.255.255.0"));
 
 
     NS_LOG_INFO ("Gerando aplicacao");
@@ -85,9 +96,19 @@ Topologia Estrela Aplicada
     uint16_t port = 50000;
     Address hubLocalAddress (InetSocketAddress (Ipv4Address::GetAny (), port));
     PacketSinkHelper packetSinkHelper ("ns3::TcpSocketFactory", hubLocalAddress);
-    ApplicationContainer hubApp = packetSinkHelper.Install (star.GetHub ());
-    hubApp.Start (Seconds (0.0));
-    hubApp.Stop (Seconds (10.0));
+    ApplicationContainer hubApp1 = packetSinkHelper.Install (star1.GetHub ());
+    ApplicationContainer hubApp2 = packetSinkHelper.Install (star2.GetHub ());
+    ApplicationContainer hubApp3 = packetSinkHelper.Install (star3.GetHub ());
+    ApplicationContainer hubApp4 = packetSinkHelper.Install (star4.GetHub ());
+    hubApp1.Start (Seconds (0.0));
+    hubApp2.Start (Seconds (0.0));
+    hubApp3.Start (Seconds (0.0));
+    hubApp4.Start (Seconds (0.0));
+
+    hubApp1.Stop (Seconds (5.0));
+    hubApp2.Stop (Seconds (5.0));
+    hubApp3.Stop (Seconds (5.0));
+    hubApp4.Stop (Seconds (5.0));
 
     //
     //Cria e envia TCP para o hub, um em cada nó de raio.
@@ -95,16 +116,47 @@ Topologia Estrela Aplicada
     OnOffHelper onOffHelper ("ns3::TcpSocketFactory", Address ());
     onOffHelper.SetAttribute ("OnTime", StringValue ("ns3::ConstantRandomVariable[Constant=1]"));
     onOffHelper.SetAttribute ("OffTime", StringValue ("ns3::ConstantRandomVariable[Constant=0]"));
-    ApplicationContainer spokeApps;
+    ApplicationContainer spokeApps1;
+    ApplicationContainer spokeApps2;
+    ApplicationContainer spokeApps3;
+    ApplicationContainer spokeApps4;
 
-    for (uint32_t i = 0; i < star.SpokeCount (); i++)
-     {
-       AddressValue remoteAddress (InetSocketAddress (star.GetHubIpv4Address (i), port));
-       onOffHelper.SetAttribute ("Remote", remoteAddress);
-       spokeApps.Add (onOffHelper.Install (star.GetSpokeNode (i)));
-     }
-     spokeApps.Start (Seconds (0.0));
-     spokeApps.Stop (Seconds (10.0));
+
+    for (uint32_t i = 0; i < star1.SpokeCount (); i++)
+    {
+      AddressValue remoteAddress (InetSocketAddress (star1.GetHubIpv4Address (i), port));
+      onOffHelper.SetAttribute ("Remote", remoteAddress);
+      spokeApps1.Add (onOffHelper.Install (star1.GetSpokeNode (i)));
+    }
+    for (uint32_t i = 0; i < star2.SpokeCount (); i++)
+    {
+      AddressValue remoteAddress (InetSocketAddress (star2.GetHubIpv4Address (i), port));
+      onOffHelper.SetAttribute ("Remote", remoteAddress);
+      spokeApps2.Add (onOffHelper.Install (star2.GetSpokeNode (i)));
+    }
+    for (uint32_t i = 0; i < star3.SpokeCount (); i++)
+    {
+      AddressValue remoteAddress (InetSocketAddress (star3.GetHubIpv4Address (i), port));
+      onOffHelper.SetAttribute ("Remote", remoteAddress);
+      spokeApps3.Add (onOffHelper.Install (star3.GetSpokeNode (i)));
+    }
+    for (uint32_t i = 0; i < star4.SpokeCount (); i++)
+      {
+      AddressValue remoteAddress (InetSocketAddress (star4.GetHubIpv4Address (i), port));
+      onOffHelper.SetAttribute ("Remote", remoteAddress);
+      spokeApps4.Add (onOffHelper.Install (star4.GetSpokeNode (i)));
+    }
+
+
+     spokeApps1.Start (Seconds (0.0));
+     spokeApps2.Start (Seconds (0.0));
+     spokeApps3.Start (Seconds (0.0));
+     spokeApps4.Start (Seconds (0.0));
+
+     spokeApps1.Stop (Seconds (5.0));
+     spokeApps2.Stop (Seconds (5.0));
+     spokeApps3.Stop (Seconds (5.0));
+     spokeApps4.Stop (Seconds (5.0));
 
      NS_LOG_INFO ("Ativando roteamente estatico.");
      //
@@ -116,24 +168,27 @@ Topologia Estrela Aplicada
      //
      // Rastreamento do pcap em todos os dispositivos p2p em todos os nos.
      //
-     AsciiTraceHelper ascii;
-     pointToPoint.EnablePcapAll ("star");
-     pointToPoint.EnableAsciiAll(ascii.CreateFileStream("projeto_tr1"));
-
+     // AsciiTraceHelper ascii;
+     // pointToPoint.EnablePcapAll (outputFolder+"Star");
+     // pointToPoint.EnableAsciiAll(ascii.CreateFileStream("projeto_tr1"));
+     star1.BoundingBox(1, 1, 50, 25);
+     star2.BoundingBox(1, 1, 150, 25);
+     star3.BoundingBox(1, 50, 50, 25);
+     star4.BoundingBox(1, 50, 150, 25);
      BaseStationNetDevice b;
      SubscriberStationNetDevice s;
-     CsmaNetDevice c;
      UanNetDevice u;
 
      AnimationInterface anim(outputFolder+"anim2.xml");
      anim.SetMaxPktsPerTraceFile(0xFFFFFFFF);
      anim.EnablePacketMetadata(true);
-     anim.EnableIpv4RouteTracking (outputFolder+"routingtable-wireless.xml", Seconds (0), Seconds (9), Seconds (0.25));
+     anim.EnableIpv4RouteTracking (outputFolder+"routingtable.xml", Seconds (0), Seconds (9), Seconds (0.25));
 
-     NS_LOG_INFO ("Rodando Simulacao.");
+     NS_LOG_INFO ("Rodando simulacao aguarde um momento. ...");
+     Simulator::Stop(Seconds(10));
      Simulator::Run ();
      Simulator::Destroy ();
-     NS_LOG_INFO ("Done.");
+     NS_LOG_INFO ("Concluido.");
 
     return 0;
 }
