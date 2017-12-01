@@ -73,3 +73,6 @@
 * Gabriel Tomaz -
   - [X] _Versão do ns-3_:
   - [X] _Sistema Operacional_:
+* Lincoln Barbosa - 14/0045023
+  - [X] _Versão do ns-3_:
+  - [X] _Sistema Operacional_:
