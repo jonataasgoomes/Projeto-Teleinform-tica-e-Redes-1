@@ -58,11 +58,11 @@ int main(int argc,char *argv[]){
 	int nP2p = 5;
 	NodeContainer p2pNodes[nP2p];
 
-	for(int i=0;i< nP2p-1 ;i++)
+	for(int i=0; i < nP2p-3 ;i++)
 		p2pNodes[i].Create(1);
-	  p2pNodes[4].Create(2);
+	  p2pNodes[2].Create(4);
 
-	for(int i=0;i< nP2p-1 ;i++)
+	for(int i=0;i< nP2p-3 ;i++)
 		p2pNodes[i].Add(p2pNodes[i+1].Get(0));
 
   // Cria o enlace ponto a ponto entre dois nós
@@ -155,8 +155,6 @@ int main(int argc,char *argv[]){
 		channel[i] = YansWifiChannelHelper::Default();
 		phy[i] = YansWifiPhyHelper::Default();
 
-		// Creating a channel object and associating it to our PHY layer
-		// All the PHY layer objects share the same wirelles medium and can communicate and interfere
 		phy[i].SetChannel(channel[i].Create());
 		wifi[i].SetRemoteStationManager("ns3::AarfWifiManager");
 
@@ -167,7 +165,7 @@ int main(int argc,char *argv[]){
 
 		// Define a posição constante (sem mobilidade) para o AP
 		mobility.SetMobilityModel ("ns3::ConstantPositionMobilityModel");
-		mobility.Install (wifiApNode[i]); // 8
+		mobility.Install (wifiApNode[i]);
 
 	}
 
@@ -219,7 +217,7 @@ int main(int argc,char *argv[]){
   ApplicationContainer serverApps = echoServer.Install (csmaNodes[0].Get (nCsma));
   // Define o tempo de início e final da aplicação no servidor
   serverApps.Start (Seconds (1.0));
-  serverApps.Stop (Seconds (70.0));
+  serverApps.Stop (Seconds (120.0));
 
 
   // SERVIDOR CLIENTE
@@ -238,9 +236,9 @@ int main(int argc,char *argv[]){
   // Configura o cliente da aplicação do enlace sem fio apontando para o servidor no
   // enlace multiponto
   ApplicationContainer clientApps = echoClient.Install (wifiStaNodes[0]);
-	for(int i=1;i<4;i++)
+	for(int i=1;i<2;i++)
 		clientApps.Add(echoClient.Install (wifiStaNodes[i]));
-	for(int i=0;i<2;i++)
+	for(int i=0;i<4;i++)
 		clientApps.Add(echoClient.Install (csmaNodes[i]));
   // Define o tempo de início e final da aplicação no cliente
   clientApps.Start (Seconds (1.0));
@@ -277,7 +275,8 @@ int main(int argc,char *argv[]){
   anim.SetMaxPktsPerTraceFile(0xFFFFFFFF);
   anim.EnablePacketMetadata(true);
   anim.EnableIpv4RouteTracking (outputFolder+"routingtable-wireless.xml", Seconds (0), Seconds (9), Seconds (0.25));
-
+	FlowMonitorHelper flowmon;
+	Ptr<FlowMonitor> monitor = flowmon.InstallAll ();
   NS_LOG_UNCOND("Simulando\n");
   // Rodando simulacao por 120 segundos
    NS_LOG_INFO ("Rodando simulacao aguarde um momento. ...");
@@ -285,6 +284,7 @@ int main(int argc,char *argv[]){
   // Carrega a simulação após todas as definições
   Simulator::Run ();
 
+	flowmon.SerializeToXmlFile("statistics.xml", true, true);
   monitor->CheckForLostPackets ();
   Ptr<Ipv4FlowClassifier> classifier = DynamicCast<Ipv4FlowClassifier> (flowmon.GetClassifier ());
   std::map<FlowId, FlowMonitor::FlowStats> stats = monitor->GetFlowStats ();
